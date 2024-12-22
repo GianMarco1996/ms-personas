@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  title: Person
+  description: API para gestionar las personas asociadas a un cliente.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+paths:
+  /person/list:
+    get:
+      summary: Devuelve las personas asociadas a un cliente
+      operationId: getPersons
+      description: Obtiene las personas.
+      responses:
+        "200":
+          description: "Operación finalizada correctamente"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonResponse"
+        "500":
+          description: "Errores técnicos"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor."
+  /person:
+    post:
+      summary: Registra una persona asociada a un cliente
+      operationId: registerPerson
+      description: Crea una nueva persona asociada a un cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonRequest"
+      responses:
+        "200":
+          description: "Operación finalizada correctamente"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Se registro de forma exitosa."
+        "500":
+          description: "Errores técnicos"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor."
+  /person/{id}:
+    get:
+      summary: Obtiene una persona asociada a un cliente
+      operationId: getPerson
+      description: Obtiene una persona por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la persona
+          schema:
+            type: string
+            example: "6764c17cb1fa3cd77d0644d8"
+      responses:
+        "200":
+          description: "Operación finalizada correctamente"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonResponse"
+        "404":
+          description: "No se encontró la persona"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Persona no encontrada."
+        "500":
+          description: "Errores técnicos"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor."
+    put:
+      summary: Actualiza una persona asociada a un cliente
+      operationId: updatePerson
+      description: Actualiza una persona por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la persona
+          schema:
+            type: string
+            example: "6764c17cb1fa3cd77d0644d8"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonRequest"
+      responses:
+        "200":
+          description: "Operación finalizada correctamente"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Se actualizo de forma exitosa."
+        "500":
+          description: "Errores técnicos"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor."
+    delete:
+      summary: Elimina una persona asociada a un cliente
+      operationId: removePerson
+      description: Elimina una persona por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la persona
+          schema:
+            type: string
+            example: "6764c17cb1fa3cd77d0644d8"
+      responses:
+        "500":
+          description: "Errores técnicos"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor."
+components:
+  schemas:
+    PersonResponse:
+      type: object
+      properties:
+        id:
+          description: "Id de la persona"
+          type: string
+          example: "6764c17cb1fa3cd77d0644d8"
+        name:
+          description: "Nombre de la persona"
+          type: string
+          example: "Pepe"
+        lastName:
+          description: "Apellidos de la persona"
+          type: string
+          example: "Jimenez Perez"
+        typePerson:
+          description: "Tipo de persona"
+          type: string
+          example: "Titular"
+        mobile:
+          description: "Celular de la persona"
+          type: string
+          example: "987654321"
+        email:
+          description: "Correo de la persona"
+          type: string
+          example: "pepe@correo.com"
+        documentNumber:
+          description: "Numero de documento de la persona"
+          type: string
+          example: "5112038226"
+        documentType:
+          description: "Tipo de documento de la persona"
+          type: string
+          example: "San Isidro"
+        address:
+          description: "Dirección de la persona"
+          type: string
+          example: "San Isidro"
+        birthdate:
+          description: "Fecha de nacimiento de la persona"
+          type: string
+          example: "05/05/2005"
+        customerId:
+          description: "Id del cliente"
+          type: string
+          example: "6764c17cb1fa3cd77d0644d8"
+    PersonRequest:
+      type: object
+      required:
+        - name
+        - lastName
+        - typePerson
+        - mobile
+        - email
+        - documentNumber
+        - documentType
+        - address
+        - birthdate
+        - customerId
+      properties:
+        name:
+          description: "Nombre de la persona"
+          type: string
+          example: "Pepe"
+        lastName:
+          description: "Apellidos de la persona"
+          type: string
+          example: "Jimenez Perez"
+        typePerson:
+          description: "Tipo de persona"
+          type: string
+          example: "Titular"
+        mobile:
+          description: "Celular de la persona"
+          type: string
+          example: "987654321"
+        email:
+          description: "Correo de la persona"
+          type: string
+          example: "pepe@correo.com"
+        documentNumber:
+          description: "Numero de documento de la persona"
+          type: string
+          example: "5112038226"
+        documentType:
+          description: "Tipo de documento de la persona"
+          type: string
+          example: "San Isidro"
+        address:
+          description: "Dirección de la persona"
+          type: string
+          example: "San Isidro"
+        birthdate:
+          description: "Fecha de nacimiento de la persona"
+          type: string
+          example: "05/05/2005"
+        customerId:
+          description: "Id del cliente"
+          type: string
+          example: "6764c17cb1fa3cd77d0644d8"
